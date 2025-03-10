@@ -27,8 +27,8 @@ const Search = () => {
   
     const tabs = [
       { id: 'hotels', label: 'Hotels', icon: <FaHotel /> },
-      { id: 'plane', label: 'Plane', icon: <FaPlaneDeparture /> },
-      { id: 'rental', label: 'Rental', icon: <FaTrain /> },
+      { id: 'plane', label: 'Flight', icon: <FaPlaneDeparture /> },
+      { id: 'rental', label: 'Train', icon: <FaTrain /> },
     ];
 
     const handleSubmit = () => {
