@@ -51,7 +51,7 @@ def validate_signup(data):
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.json  # Get JSON data from React
-
+    print(data)
     # Validate data
     errors = validate_signup(data)
     if errors:

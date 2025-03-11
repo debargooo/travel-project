@@ -3,6 +3,7 @@ import Logo from '../assets/Logo.png'
 import { Link, Navigate, useNavigate } from 'react-router'
 import { useState } from 'react'
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
 const SignUp = () => {
     const [name, setName] = useState('')
@@ -20,10 +21,9 @@ const SignUp = () => {
       try {
         const response = await axios.post("http://127.0.0.1:5000/api/signup", userData, {
           headers: { "Content-Type": "application/json" },
-        });
-    
-        console.log("Response from server:", response.data);
-        alert(response.data.message);
+        }); 
+
+       
 
         navigate("/home")
     
@@ -34,7 +34,8 @@ const SignUp = () => {
         setPhoneNumber("");
       } catch (error) {
         if (error.response && error.response.data.errors) {
-          alert("Error: " + error.response.data.errors.join("\n")); // Show all errors
+          console.log(error.response.data.errors[0])
+          toast.error( error.response.data.errors.join("\n"));
         } else {
           alert("Signup failed. Please try again.");
         }
@@ -101,6 +102,7 @@ const SignUp = () => {
         <div>
           <button type="submit" class="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800  focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">Let's Start</button>
         </div>
+        <ToastContainer />
       </form>
     </div>
   </div>

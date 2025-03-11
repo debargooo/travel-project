@@ -14,12 +14,12 @@ const Navbar = () => {
                 <img src={logo} alt="Logo" className="h-8" />
             </div>
 
-            <div className="hidden md:flex gap-6 text-white">
-                <a href="#" className="hover:text-black">Home</a>
-                <a href="#" className="hover:text-black">Hotels</a>
-                <a href="#" className="hover:text-black">Destinations</a>
-                <a href="#" className="hover:text-black">About Us</a>
-                <a href="#" className="hover:text-black">Contact</a>
+            <div className="hidden md:flex gap-6 text-white ">
+                <a href="#" className="hover:text-[#FF0038]">Home</a>
+                <a href="#" className="hover:text-[#FF0038]">Hotels</a>
+                <a href="#" className="hover:text-[#FF0038]">Destinations</a>
+                <a href="#" className="hover:text-[#FF0038]">About Us</a>
+                <a href="#" className="hover:text-[#FF0038]">Contact</a>
             </div>
 
             <div className="flex gap-4 items-center">
