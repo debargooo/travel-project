@@ -48,7 +48,7 @@ const SignUp = () => {
               }, { headers: { "Content-Type": "application/json" } });
             } catch (error) {
               console.error("Error sending user data to backend:", error);
-            }
+             }
     
             // Redirect to home
             window.location.href = "/home";

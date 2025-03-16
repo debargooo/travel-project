@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify,session
 from flask_cors import CORS
 import re  # For regex validation
-from fireeeee import FirestoreDB
+from fireee import FirestoreDB
 
 
 app = Flask(__name__)
 CORS(app)
 
 firee=FirestoreDB()
+print(firee)
 
 def validate_signup(data):
     """ Validate user signup data """
@@ -75,6 +76,7 @@ def signup():
         
         firee.insert(userId,user_data)
         
+        
         return jsonify({"success": True, "message": "Signup successful!", "user_id": userId}), 201
     except Exception as e:
         return jsonify({"success": False, "message": "Error saving user data.", "error": str(e)}), 500
@@ -91,7 +93,8 @@ def login():
     if not email or not password:
         return jsonify({"success": False, "message":"Email and password are required."}), 400
 
-    user_data = firee.getUserByEmail(email)  
+    user_data = firee.getUserByEmail(email) 
+    print(user_data) 
 
     if  user_data.get("password") == password: 
   
