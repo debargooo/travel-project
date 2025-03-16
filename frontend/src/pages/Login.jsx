@@ -1,23 +1,40 @@
 import React from 'react'
 import Logo from '../assets/Logo.png'
-import { Link } from 'react-router'
+import { Link,useNavigate,Navigate} from 'react-router'
 import { useState } from 'react'
+import axios from "axios";
+
 
 const Login = () => {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate=useNavigate()
 
 
-  const handleSubmit = (e) => {
-         e.preventDefault()
-         setName('')
-         setEmail('')
-         setPassword('')
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  return (
+    const userData = { email, password }; 
+
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/login', userData, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      console.log('Login successful:', response.data);
+      navigate('/home'); // Redirect on success
+    } catch (error) {
+        if (error.response) {
+        alert(error.response.data.message || 'Login failed. Please try again.');
+      } else {
+        alert('Server error. Please try again later.');
+      }
+    }
+  };
+
+   return (
      <div class="flex flex-row-reverse h-screen">
       <div class="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
       <div class="w-full h-full">

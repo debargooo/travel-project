@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Cookies from "js-cookie";
 import Logo from '../assets/Logo.png'
 import { Link, Navigate, useNavigate } from 'react-router'
 import { useState } from 'react'
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
+import {auth} from '/firebase/config'
+import { GoogleAuthProvider,signInWithPopup } from 'firebase/auth';
+
+
+
 
 const SignUp = () => {
     const [name, setName] = useState('')
@@ -12,6 +18,49 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const navigate=useNavigate()
+
+
+
+    const handleGoogleSignIn = async () => {
+      const provider = new GoogleAuthProvider();
+    
+      signInWithPopup(auth, provider)
+        .then(async (result) => {
+          console.log(result);
+    
+          if (result.user) {
+            toast.success("User logged in successfully", {
+              position: "top-center",
+            });
+    
+            // Store user details in cookies (expires in 7 days)
+            Cookies.set("user", JSON.stringify({
+              name: result.user.displayName,
+              email: result.user.email,
+              photoURL: result.user.photoURL
+            }), { expires: 7 });
+    
+            // Send user data to backend
+            try {
+              await axios.post("http://127.0.0.1:5000/api/google-login", {
+                name: result.user.displayName,
+                email: result.user.email,
+              }, { headers: { "Content-Type": "application/json" } });
+            } catch (error) {
+              console.error("Error sending user data to backend:", error);
+            }
+    
+            // Redirect to home
+            window.location.href = "/home";
+          }
+        })
+        .catch((error) => {
+          console.error("Google Sign-In Error:", error);
+          toast.error("Google login failed. Please try again.");
+        });
+    };
+  
+
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -33,11 +82,18 @@ const SignUp = () => {
         setConfirmPassword("");
         setPhoneNumber("");
       } catch (error) {
-        if (error.response && error.response.data.errors) {
-          console.log(error.response.data.errors[0])
-          toast.error( error.response.data.errors.join("\n"));
+        if (error.response) {
+          if (error.response.status === 409) {
+            // User already exists
+            toast.error("User already exists. Please log in.");
+          } else if (error.response.data.errors) {
+            // Handle other validation errors
+            toast.error(error.response.data.errors.join("\n"));
+          } else {
+            toast.error(error.response.data.message || "Signup failed. Please try again.");
+          }
         } else {
-          alert("Signup failed. Please try again.");
+          toast.error("Server error. Please try again later.");
         }
       }
     };
@@ -60,7 +116,7 @@ const SignUp = () => {
       </div>
       <div class="mt-4 flex flex-col lg:flex-row items-center justify-between">
         <div class="w-full lg:w-1/2 mb-2 lg:mb-0">
-          <button type="button" class="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300">
+          <button onClick={handleGoogleSignIn} type="button" class="w-full flex justify-center items-center gap-2 bg-white text-sm text-gray-600 p-2 rounded-md hover:bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition-colors duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4" id="google">
               <path fill="#fbbb00" d="M113.47 309.408 95.648 375.94l-65.139 1.378C11.042 341.211 0 299.9 0 256c0-42.451 10.324-82.483 28.624-117.732h.014L86.63 148.9l25.404 57.644c-5.317 15.501-8.215 32.141-8.215 49.456.002 18.792 3.406 36.797 9.651 53.408z"></path>
               <path fill="#518ef8" d="M507.527 208.176C510.467 223.662 512 239.655 512 256c0 18.328-1.927 36.206-5.598 53.451-12.462 58.683-45.025 109.925-90.134 146.187l-.014-.014-73.044-3.727-10.338-64.535c29.932-17.554 53.324-45.025 65.646-77.911h-136.89V208.176h245.899z"></path>

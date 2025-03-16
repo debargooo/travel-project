@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from "js-cookie";
 import { FaHeart } from 'react-icons/fa';
 import heroImg from '../assets/hero.png';
 import eiffel from '../assets/eiffel.jpg';
@@ -9,9 +10,21 @@ import hotel from '../assets/hotel.jpg'
 import Contact from '../components/Contact';
 import { Footer } from '../components/Footer';
 
+
 import Search from '../components/Search';
 
 const Home = () => {
+  
+
+  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
+  
+  console.log(user); // Check if user data is stored
+  
+  if (user) {
+    console.log("User Name:", user.name);
+    console.log("User Email:", user.email);
+    console.log("User Photo:", user.photoURL);
+  }
 
   return (
     <div className=" min-h-screen">

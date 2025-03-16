@@ -60,7 +60,7 @@ const Search = () => {
   };
 
   return (
-    <div className="mt-8 bg-white w-full min-w-5xl rounded-xl shadow-md p-6 text-gray-800 z-50">
+    <div className="mt-8 bg-white min-w-5xl rounded-xl shadow-md p-6 text-gray-800 z-50">
       <ToastContainer position="bottom-right" />
       {/* Tabs */}
       <div className="flex items-center border-b pb-3">

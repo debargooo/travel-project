@@ -25,6 +25,7 @@ const Navbar = () => {
             <div className="flex gap-4 items-center">
                 <Link to='/login' className="text-gray-600">Login</Link>
                 <Link to='/register' className="bg-[#FF0038] text-white px-4 py-2 rounded-full">Register</Link>
+                
             </div>
         </nav>
 

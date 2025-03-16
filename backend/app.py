@@ -1,9 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,session
 from flask_cors import CORS
 import re  # For regex validation
+from fireeeee import FirestoreDB
+
 
 app = Flask(__name__)
 CORS(app)
+
+firee=FirestoreDB()
 
 def validate_signup(data):
     """ Validate user signup data """
@@ -50,15 +54,81 @@ def validate_signup(data):
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
-    data = request.json  # Get JSON data from React
+    data = request.json  
     print(data)
-    # Validate data
     errors = validate_signup(data)
     if errors:
         return jsonify({"success": False, "errors": errors}), 400
+    
+    userId= data["email"]
+    
+    if firee.isAlreadyAUser(userId):
+        return jsonify({"success": False, "message": "User already exists. Please log in."}),409
+    
+    user_data={
+        "name": data["name"],
+        "email":data["email"],
+        "password":data["password"],
+        "phone":data["phoneNumber"] 
+    }
+    try:
+        
+        firee.insert(userId,user_data)
+        
+        return jsonify({"success": True, "message": "Signup successful!", "user_id": userId}), 201
+    except Exception as e:
+        return jsonify({"success": False, "message": "Error saving user data.", "error": str(e)}), 500
 
-    # If no errors, process registration
-    return jsonify({"success": True, "message": "Signup successful!", "received_data": data})
+
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.json
+    print(data)
+
+    email = data.get("email", "").strip()
+    password = data.get("password", "").strip()
+
+    if not email or not password:
+        return jsonify({"success": False, "message":"Email and password are required."}), 400
+
+    user_data = firee.getUserByEmail(email)  
+
+    if  user_data.get("password") == password: 
+  
+        return jsonify({"success": True, "message": "Login successful!", "user_id": email}), 200
+    else:
+        return jsonify({"success": False, "message": "Invalid email or password."}), 401
+
+
+@app.route('/api/google-login', methods=['POST'])
+def google_login():
+    try:
+        data = request.json
+        email = data.get("email")
+        name = data.get("name")
+
+        if not email:
+            return jsonify({"success": False, "message": "No email provided"}), 400
+
+        # Check if user exists
+        user_data = firee.getUserByEmail(email)
+
+        if not user_data:
+            # Create a new user if not exists
+            user_data = {
+                "name": name,
+                "email": email,
+                "auth_provider": "google"
+            }
+            firee.insert(email, user_data)
+
+        # Store user session (flask session is stored in cookies)
+        session['user'] = user_data
+
+        return jsonify({"success": True, "message": "Google login successful!", "user": user_data}), 200
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
