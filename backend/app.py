@@ -85,22 +85,28 @@ def signup():
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
-    print(data)
+    print("Received data:", data)
 
     email = data.get("email", "").strip()
     password = data.get("password", "").strip()
+    username = data.get("name", "").strip()
+
 
     if not email or not password:
-        return jsonify({"success": False, "message":"Email and password are required."}), 400
+        return jsonify({"success": False, "message": "Email and password are required."}), 400
 
-    user_data = firee.getUserByEmail(email) 
-    print(user_data) 
+    user_data = firee.getUserByEmail(email)  
+    print("Fetched user data:", user_data)
 
-    if  user_data.get("password") == password: 
-  
-        return jsonify({"success": True, "message": "Login successful!", "user_id": email}), 200
+    # 🔴 Fix: Check if user_data is None before accessing it
+    if user_data is None:
+        return jsonify({"success": False, "message": "User not found."}), 404
+
+    if user_data.get("password") == password:
+        return jsonify({"success": True, "message": "Login successful!", "user_id": email, "name": username}), 200
     else:
         return jsonify({"success": False, "message": "Invalid email or password."}), 401
+
 
 
 @app.route('/api/google-login', methods=['POST'])

@@ -16,16 +16,7 @@ import Search from '../components/Search';
 const Home = () => {
   
 
-  const user = Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null;
-  
-  console.log(user); // Check if user data is stored
-  
-  if (user) {
-    console.log("User Name:", user.name);
-    console.log("User Email:", user.email);
-    console.log("User Photo:", user.photoURL);
-  }
-
+ 
   return (
     <div className=" min-h-screen">
       
