@@ -43,9 +43,9 @@ const Login = () => {
       console.error("Login error:", error);
       if (error.response) {
         console.log("Backend Response:", error.response.data);
-        alert(error.response.data.message || "Login failed. Please try again.");
+        toast.error(error.response.data.message || "Login failed. Please try again.");
       } else {
-        alert("Server error. Please try again later.");
+        toast.error("Server error. Please try again later.");
       }
     }
   };

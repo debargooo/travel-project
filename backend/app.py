@@ -94,7 +94,6 @@ def login():
     password = data.get("password", "").strip()
     username = data.get("name", "").strip()
 
-
     if not email or not password:
         return jsonify({"success": False, "message": "Email and password are required."}), 400
 
