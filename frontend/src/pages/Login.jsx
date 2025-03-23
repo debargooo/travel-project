@@ -80,7 +80,7 @@ const Login = () => {
            }
   
           // Redirect to home
-          window.location.href = "/home";
+          navigate("/home");
         }
       })
       .catch((error) => {
