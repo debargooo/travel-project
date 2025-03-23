@@ -42,7 +42,7 @@ const SignUp = () => {
     
             // Send user data to backend
             try {
-              await axios.post("http://127.0.0.1:5000/api/google-login", {
+              await axios.post(`${import.meta.env.VITE_PORT}/api/google-login`, {
                 name: result.user.displayName,
                 email: result.user.email,
               }, { headers: { "Content-Type": "application/json" } });
@@ -68,7 +68,7 @@ const SignUp = () => {
       const userData = { name, email, phoneNumber, password, confirmPassword };
     
       try {
-        const response = await axios.post("http://127.0.0.1:5000/api/signup", userData, {
+        const response = await axios.post(`${import.meta.env.VITE_PORT}/api/signup`, userData, {
           headers: { "Content-Type": "application/json" },
         }); 
 
