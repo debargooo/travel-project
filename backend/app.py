@@ -10,6 +10,9 @@ CORS(app)
 firee=FirestoreDB()
 print(firee)
 
+@app.route("/",methods=['GET'])
+def home():
+    return "CHECK RATE "
 def validate_signup(data):
     """ Validate user signup data """
     errors = []
