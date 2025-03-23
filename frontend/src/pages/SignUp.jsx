@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Cookies from "js-cookie";
-import Logo from '../assets/Logo.png'
+import Logo from '@/assets/Logo.png'
 import { Link, Navigate, useNavigate } from 'react-router'
 import { useState } from 'react'
 import axios from "axios";

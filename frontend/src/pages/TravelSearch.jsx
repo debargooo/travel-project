@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import heroImg from "../assets/hero.png";
+import heroImg from "@/assets/hero.png";
 import Search from "../components/Search";
 import { FaSearch, FaMapMarkerAlt, FaUser, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";

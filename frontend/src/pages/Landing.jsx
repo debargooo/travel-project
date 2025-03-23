@@ -1,7 +1,7 @@
 import React from 'react';
-import homeImg from '../assets/home.png';
-import Logo from '../assets/Logo.png';
-import Logo2 from '../assets/Logo_S.png';
+import homeImg from '@/assets/home.png';
+import Logo from '@/assets/Logo.png';
+import Logo2 from '@/assets/Logo_S.png';
 import { Link } from 'react-router';
 
 const Home = () => {

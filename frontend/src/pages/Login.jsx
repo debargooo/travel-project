@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../assets/Logo.png'
+import Logo from '@/assets/Logo.png'
 import { Link,useNavigate,Navigate} from 'react-router'
 import { useAuth } from "../context/AuthContext";
 import { useState } from 'react'

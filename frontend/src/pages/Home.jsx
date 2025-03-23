@@ -1,12 +1,12 @@
 import React from 'react';
 import Cookies from "js-cookie";
 import { FaHeart } from 'react-icons/fa';
-import heroImg from '../assets/hero.png';
-import eiffel from '../assets/eiffel.jpg';
-import greatWall from '../assets/greatWall.jpg';
-import tajMahal from '../assets/tajMahal.jpg';
+import heroImg from '@/assets/hero.png';
+import eiffel from '@/assets/eiffel.jpg';
+import greatWall from '@/assets/greatWall.jpg';
+import tajMahal from '@/assets/tajMahal.jpg';
 import Navbar from '../components/Navbar';
-import hotel from '../assets/hotel.jpg'
+import hotel from '@/assets/hotel.jpg'
 import Contact from '../components/Contact';
 import { Footer } from '../components/Footer';
 
