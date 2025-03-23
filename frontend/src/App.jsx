@@ -9,7 +9,7 @@ import TravelSearch from './pages/TravelSearch';
 const App = () => {
   return (
     <>
-    <BrowserRouter>
+    <HashRouter>
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/home" element={<Home />} />
@@ -17,7 +17,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/travel-search" element={<TravelSearch />} />
     </Routes>
-  </BrowserRouter>
+  </HashRouter>
     </>
   )
 }
